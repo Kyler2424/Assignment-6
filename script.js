@@ -15,25 +15,20 @@ submitButton.addEventListener('click', function() {
     } else {
       occurence[token] = 1;
     }
-  })
+  });
 
   textArea.value = "";
-  console.log(occurence);
 
-
-const root = document.getElementById('root');
-root.appendChild(textArea);
-root.appendChild(submitButton);
+console.log(occurence);
 
 //HTML TABLE
 const table = document.createElement('table');
-const headerRow = document.createElement('thead');
-const row1 = document.createElement('tr');
-const word = document.createElement('th');
-word.textContent = 'word_name';
+const headerRow = table.insertRow();
+const tokenHeader = document.createElement('th');
+tokenHeader.textContent = 'word_name';
 const count = document.createElement('th');
 count.textContent = 'word_frequency';
-headerRow.appendChild(word);
+headerRow.appendChild(tokenHeader);
 headerRow.appendChild(count);
 
 //Adding words and occurences to table
@@ -45,8 +40,9 @@ for(const token in occurence){
   countCell.textContent = occurence[token];
 }
 
+const root = document.getElementById('root');
+root.appendChild(table);
 });
 
-const root = document.getElementById('root');
 root.appendChild(textArea);
 root.appendChild(submitButton);
