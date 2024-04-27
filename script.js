@@ -8,18 +8,21 @@ submitButton.addEventListener('click', function() {
   const text = textArea.value;
   const tokens = text.split(/\s+/)
   
-  const occurence = {};
+  const occurrence = {};
   tokens.forEach(token => {
-    if (token in occurence) {
-      occurence[token]++;
+    if (token in occurrence) {
+      occurrence[token]++;
     } else {
-      occurence[token] = 1;
+      occurrence[token] = 1;
     }
   });
 
   textArea.value = "";
 
-console.log(occurence);
+console.log(occurrence);
+
+//make array
+const sortedOccurrences = Object.entries(occurrence).sort((a, b) => b[1] - a[1]);
 
 //HTML TABLE
 const table = document.createElement('table');
@@ -31,17 +34,22 @@ count.textContent = 'word_frequency';
 headerRow.appendChild(tokenHeader);
 headerRow.appendChild(count);
 
-//Adding words and occurences to table
-for(const token in occurence){
-	const row = table.insertRow();
-  const tokenCell = row.insertCell();
-  tokenCell.textContent = token;
-  const countCell = row.insertCell();
-  countCell.textContent = occurence[token];
-}
+//adding words to table in order of occurence
+
+sortedOccurrences.forEach(([token, frequency]) => {
+const row = table.insertRow();
+const tokenCell = row.insertCell();
+tokenCell.textContent = token;
+const countCell = row.insertCell();
+countCell.textContent = frequency;
+})
 
 const root = document.getElementById('root');
 root.appendChild(table);
+
+//console log top 5 words
+console.log('Top 5 most frequent words are:');
+
 });
 
 root.appendChild(textArea);
