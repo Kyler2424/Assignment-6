@@ -4,6 +4,8 @@ const submitButton = document.createElement('button');
 submitButton.textContent = 'Submit';
 
 submitButton.addEventListener('click', function() {  //insert functions here
+//adding root
+  const root = document.getElementById('root');
  
   const text = textArea.value;
   const tokens = text.split(/\s+/)
@@ -21,16 +23,31 @@ submitButton.addEventListener('click', function() {  //insert functions here
   
   const occurrenceArray = Object.entries(occurrence);
   
-  occurrenceArray.sort((a, b) => b[1] - a[1]);
-  
+
+  occurrenceArray.sort((a, b) => {
+  //compare frquencies to see if they match
+  if (b[1] - a[1] !== 0) {
+  return b[1] - a[1]; //Sort by frequency
+  } else {
+  return b[0].localeCompare(a[0]); //compare reverse-alphabetically (sky comes before orange)
+  }
+ });
+ 
   const sortedOccurrences = Object.fromEntries(occurrenceArray);
 
 console.log(sortedOccurrences);
 
 
 //make array and console log top 5 words
-const firstFive = occurrenceArray.slice(0, 5).map(([token, frequency]) => `${token}: ${frequency}`).join(', ');
+const firstFive = occurrenceArray.slice(0, 5).map(([token,frequency]) => `${token}:${frequency}`).join(', ');
 console.log(`Top 5 most frequent words are: ${firstFive}`);
+
+//Add top 5 to UI
+const topWords = document.createElement('div');
+topWords.textContent = `Top 5 most frequent words are: ${firstFive}`;
+//append element
+
+
 
 //HTML TABLE
 const table = document.createElement('table');
@@ -52,10 +69,10 @@ const countCell = row.insertCell();
 countCell.textContent = frequency;
 })
 
-const root = document.getElementById('root');
+//outputting table and top5 in UI
 root.appendChild(table);
-
+root.appendChild(topWords);
 });
-
+//outputting textarea and submit in UI
 root.appendChild(textArea);
 root.appendChild(submitButton);
